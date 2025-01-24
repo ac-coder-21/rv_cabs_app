@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'theme_provider.dart';
 import 'main.dart';
 import 'profile_page.dart';
+import 'support_page.dart';
+import 'help_page.dart';
 
 class DrawerMenu extends StatelessWidget {
   const DrawerMenu({super.key});
@@ -13,7 +15,7 @@ class DrawerMenu extends StatelessWidget {
     final isDarkMode = themeProvider.isDarkMode;
 
     return Drawer(
-      child: Column(  
+      child: Column(
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
@@ -24,8 +26,8 @@ class DrawerMenu extends StatelessWidget {
                 end: Alignment.bottomRight,
                 colors: [
                   isDarkMode ? Colors.amber : const Color(0xFF69DFFF),
-                  isDarkMode 
-                      ? Colors.amber.withOpacity(0.8) 
+                  isDarkMode
+                      ? Colors.amber.withOpacity(0.8)
                       : const Color(0xFF69DFFF).withOpacity(0.8),
                 ],
               ),
@@ -49,16 +51,16 @@ class DrawerMenu extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.close,
-                        color: isDarkMode ? Colors.black : Colors.white,
+                        color: Colors.black,
                       ),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
-                Row(
+                const Row(
                   children: [
                     Expanded(
                       child: Column(
@@ -67,7 +69,7 @@ class DrawerMenu extends StatelessWidget {
                           Text(
                             'Arvind Kumar',
                             style: TextStyle(
-                              color: isDarkMode ? Colors.black : Colors.white,
+                              color: Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -75,9 +77,7 @@ class DrawerMenu extends StatelessWidget {
                           Text(
                             'arvind.kumar@gmail.com',
                             style: TextStyle(
-                              color: isDarkMode 
-                                  ? Colors.black.withOpacity(0.7) 
-                                  : Colors.white.withOpacity(0.7),
+                              color: Colors.black,
                               fontSize: 14,
                             ),
                           ),
@@ -144,6 +144,12 @@ class DrawerMenu extends StatelessWidget {
                     isDarkMode,
                     onTap: () {
                       Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SupportPage(),
+                        ),
+                      );
                     },
                   ),
                   _buildMenuItem(
@@ -151,6 +157,22 @@ class DrawerMenu extends StatelessWidget {
                     'Help',
                     Icons.help_outline,
                     isDarkMode,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HelpPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  _buildMenuItem(
+                    context,
+                    'SOS',
+                    Icons.phone,
+                    isDarkMode,
+                    isRed: true,
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -185,16 +207,17 @@ class DrawerMenu extends StatelessWidget {
     IconData icon,
     bool isDarkMode, {
     required VoidCallback onTap,
+    bool isRed = false,
   }) {
     return ListTile(
       leading: Icon(
         icon,
-        color: isDarkMode ? Colors.white70 : Colors.black87,
+        color: isRed ? Colors.red : (isDarkMode ? Colors.white70 : Colors.black87),
       ),
       title: Text(
         title,
         style: TextStyle(
-          color: isDarkMode ? Colors.white : Colors.black,
+          color: isRed ? Colors.red : (isDarkMode ? Colors.white : Colors.black),
           fontSize: 16,
         ),
       ),
