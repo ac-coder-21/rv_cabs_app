@@ -4,9 +4,73 @@ import 'theme_provider.dart';
 import 'main.dart';
 import 'change_password_page.dart';
 import 'documents_page.dart';
+import 'update_profile_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
+
+  void _showImagePickerOptions(BuildContext context, bool isDarkMode) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Select Profile Picture',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
+              const SizedBox(height: 20),
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: Text(
+                  'Take Photo',
+                  style: TextStyle(
+                    color: isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Camera functionality will be implemented'),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: Text(
+                  'Choose from Gallery',
+                  style: TextStyle(
+                    color: isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Gallery functionality will be implemented'),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,38 +111,44 @@ class ProfilePage extends StatelessWidget {
                     const SizedBox(height: 20),
                     Stack(
                       children: [
-                        Container(
-                          width: 120,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: isDarkMode 
-                                ? Colors.grey[800]?.withOpacity(0.9) 
-                                : Colors.grey[200]?.withOpacity(0.9),
-                          ),
-                          child: const Icon(
-                            Icons.person,
-                            size: 80,
-                            color: Colors.grey,
+                        GestureDetector(
+                          onTap: () => _showImagePickerOptions(context, isDarkMode),
+                          child: Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: isDarkMode 
+                                  ? Colors.grey[800]?.withOpacity(0.9) 
+                                  : Colors.grey[200]?.withOpacity(0.9),
+                            ),
+                            child: const Icon(
+                              Icons.person,
+                              size: 80,
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
                         Positioned(
                           bottom: 0,
                           right: 0,
-                          child: Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: isDarkMode ? Colors.amber : const Color(0xFF69DFFF),
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: isDarkMode ? Colors.black : Colors.white,
-                                width: 2,
+                          child: GestureDetector(
+                            onTap: () => _showImagePickerOptions(context, isDarkMode),
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: isDarkMode ? Colors.amber : const Color(0xFF69DFFF),
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: isDarkMode ? Colors.black : Colors.white,
+                                  width: 2,
+                                ),
                               ),
-                            ),
-                            child: const Icon(
-                              Icons.edit,
-                              size: 20,
-                              color: Colors.black,
+                              child: const Icon(
+                                Icons.edit,
+                                size: 20,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                         ),
@@ -119,7 +189,12 @@ class ProfilePage extends StatelessWidget {
                       ),
                       child: ElevatedButton(
                         onPressed: () {
-                          // Handle update profile
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const UpdateProfilePage(),
+                            ),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: isDarkMode ? Colors.amber : const Color(0xFF69DFFF),
